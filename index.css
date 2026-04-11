@@ -189,6 +189,10 @@
         padding-bottom: 0; /* Remove padding-bottom para usar height */
         min-height: 300px; /* Altura mínima */
       }
+      .sheet {
+        left: 0;
+        width: 100%;
+      }
       .page-content {
         padding: 15px 10px;
       }
