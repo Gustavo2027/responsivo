@@ -103,17 +103,21 @@
       color: var(--gold) !important;
     }
 
+    .scroll-wrapper {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: auto;
+    }
+
    .page-content { 
   padding: 20px 15px; 
-  height: 100%; 
-  overflow-y: auto; 
-  overflow-x: hidden;
+  height: auto; 
+  overflow: visible;
   display: flex; 
   flex-direction: column;
-
-  
-  -webkit-overflow-scrolling: touch;
-  touch-action: auto;
 }
     
     .menu-section { margin-bottom: 15px; }
