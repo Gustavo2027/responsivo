@@ -88,7 +88,7 @@
     .sheet.flipped { transform: rotateY(-180deg); }
 
     .face {
-      position: absolute; inset: 0; width: 100%; height: 100%;
+      position: relative; inset: 0; width: 100%; height: 100%;
       backface-visibility: hidden; background-color: var(--paper);
       display: flex; flex-direction: column; overflow: hidden;
       box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
