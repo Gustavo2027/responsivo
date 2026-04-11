@@ -236,7 +236,11 @@ let isAnimating = false;
             `).join('')}
           </div>
         `).join('');
-        faceEl.innerHTML = `<div class="scroll-wrapper"><div class="page-content">${content}</div></div>`;
+        if (window.innerWidth <= 640) {
+          faceEl.innerHTML = `<div class="scroll-wrapper"><div class="page-content">${content}</div></div>`;
+        } else {
+          faceEl.innerHTML = `<div class="page-content">${content}</div>`;
+        }
       }
     }
 
