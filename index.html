@@ -236,7 +236,7 @@ let isAnimating = false;
             `).join('')}
           </div>
         `).join('');
-        faceEl.innerHTML = `<div class="scroll-wrapper"><div class="page-content">${content}</div></div>`;
+        faceEl.innerHTML = `<div class="page-content">${content}</div>`;
       }
     }
 
@@ -301,9 +301,11 @@ indicator = document.getElementById('page-indicator');
     startX = touch.clientX;
     startY = touch.clientY;
     isScrolling = false;
-  });
+  }, { passive: true });
 
   container.addEventListener("touchmove", (e) => {
+    if (isAnimating) return;
+    
     const touch = e.touches[0];
     const diffX = Math.abs(touch.clientX - startX);
     const diffY = Math.abs(touch.clientY - startY);
@@ -311,19 +313,13 @@ indicator = document.getElementById('page-indicator');
     // Se movimento vertical for maior, é scroll - deixa passar
     if (diffY > diffX) {
       isScrolling = true;
-      return; // Não bloqueia o evento
-    }
-    
-    // Se movimento horizontal for maior, pode ser mudança de página
-    if (diffX > diffY) {
-      isScrolling = false;
+      return;
     }
   }, { passive: true });
+
   container.addEventListener("touchend", () => {
-  setTimeout(() => {
     isScrolling = false;
-  }, 50);
-});
+  }, { passive: true });
 
   initBook();
 });
