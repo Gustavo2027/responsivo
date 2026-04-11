@@ -25,6 +25,7 @@
   flex-direction: column; */
 
   font-family: var(--font-sans);
+  -webkit-overflow-scrolling: touch;
 }
 
     /* BARRA SUPERIOR */
@@ -106,12 +107,13 @@
   padding: 20px 15px; 
   height: 100%; 
   overflow-y: auto; 
+  overflow-x: hidden;
   display: flex; 
   flex-direction: column;
 
   
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
+  touch-action: auto;
 }
     
     .menu-section { margin-bottom: 15px; }
@@ -172,7 +174,9 @@
     @media (max-width: 640px) {
       #book-container {
         width: 98%;
-        padding-bottom: 70%; /* Um pouco mais alto para mobile */
+        height: calc(98vw * 0.7); /* Altura baseada na largura para manter proporção */
+        padding-bottom: 0; /* Remove padding-bottom para usar height */
+        min-height: 300px; /* Altura mínima */
       }
       .page-content {
         padding: 15px 10px;
