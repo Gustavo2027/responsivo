@@ -302,11 +302,11 @@ indicator = document.getElementById('page-indicator');
     const diffX = Math.abs(touch.clientX - startX);
     const diffY = Math.abs(touch.clientY - startY);
 
-  if (diffY > diffX) {
-  isScrolling = true;
-  return;
-}
-  });
+    // Se o movimento vertical for maior que o horizontal e maior que um pequeno threshold
+    if (diffY > diffX && diffY > 5) {
+      isScrolling = true;
+    }
+  }, { passive: true });
   container.addEventListener("touchend", () => {
   setTimeout(() => {
     isScrolling = false;
