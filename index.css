@@ -1,5 +1,4 @@
-
-    :root {
+ :root {
       --gold: #d4af37;
       --dark-brown: #1a0d0b;
       --paper: #fdfbf7;
@@ -56,26 +55,20 @@
 }
 
    #book-container {
-  position: relative;
-  width: 96%;
-  max-width: 900px;
-  margin: auto;
+  position: relative; 
+  width: 96%; 
+  max-width: 900px; 
+  /* height: 60vh; */
+         min-height: 60dvh;
+        height: auto;
+  aspect-ratio: 2 / 1.3;
+  margin: auto; 
   perspective: 2500px;
   touch-action: auto;
 }
 
-#book-container::before {
-  content: "";
-  display: block;
-  padding-top: 65%;
-}
-
     .book-wrapper {
-      transform-style: preserve-3d;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      inset: 0;
+      transform-style: preserve-3d; width: 100%; height: 100%; position: relative;
     }
     
     .sheet {
@@ -95,9 +88,10 @@
     .face {
       position: absolute; inset: 0; width: 100%; height: 100%;
       backface-visibility: hidden; background-color: var(--paper);
-      display: flex; flex-direction: column; overflow: hidden;
+      display: flex; flex-direction: column; overflow: visible;
       box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
       border: 1px solid rgba(0,0,0,0.05);
+      -webkit-overflow-scrolling: touch;
     }
 
     .face.back { transform: rotateY(180deg); }
@@ -111,12 +105,15 @@
    .page-content { 
   padding: 20px 15px; 
   height: 100%; 
-  overflow-y: auto; 
+  overflow-y: scroll;
   overflow-x: hidden;
   display: flex; 
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) rgba(212, 175, 55, 0.1);
+  scroll-behavior: smooth;
 }
 
 .page-content::-webkit-scrollbar {
@@ -124,12 +121,13 @@
 }
 
 .page-content::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(212, 175, 55, 0.05);
 }
 
 .page-content::-webkit-scrollbar-thumb {
   background: var(--gold);
   border-radius: 4px;
+  min-height: 40px;
 }
     
     .menu-section { margin-bottom: 15px; }
@@ -208,6 +206,22 @@
         height: 40px;
       }
     }
+
+    @supports (overflow-y: overlay) {
+      .page-content {
+        overflow-y: overlay;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .page-content {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        scroll-behavior: auto;
+      }
+    }
+
 body {
   -webkit-overflow-scrolling: touch;
 }
