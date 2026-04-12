@@ -189,7 +189,39 @@ var isScrolling = false;
 let currentSheet = 0;
 let isAnimating = false;
 
-  
+let scrollPositions = new Map();
+let isDragging = false;
+let startY = 0;
+let currentScrollY = 0;
+
+function addScrollListeners() {
+  document.querySelectorAll('.scroll-wrapper').forEach(wrapper => {
+    const content = wrapper.querySelector('.page-content');
+    if (!content) return;
+    scrollPositions.set(wrapper, 0);
+
+    wrapper.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startY = e.touches[0].clientY;
+      currentScrollY = scrollPositions.get(wrapper) || 0;
+    }, passiveOptions);
+
+    wrapper.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault(); // Previne scroll nativo
+      const deltaY = e.touches[0].clientY - startY;
+      let newScrollY = currentScrollY - deltaY;
+      const maxScroll = content.scrollHeight - wrapper.clientHeight;
+      newScrollY = Math.max(0, Math.min(maxScroll, newScrollY));
+      scrollPositions.set(wrapper, newScrollY);
+      content.style.transform = `translateY(-${newScrollY}px)`;
+    }, passiveOptions);
+
+    wrapper.addEventListener('touchend', () => {
+      isDragging = false;
+    }, passiveOptions);
+  });
+}
   
     const sheets = [];
 
@@ -342,6 +374,7 @@ indicator = document.getElementById('page-indicator');
   }, passiveOptions);
 
   initBook();
+  addScrollListeners();
 });
   </script>
 </body>
