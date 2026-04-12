@@ -98,7 +98,7 @@ html, body {
   aspect-ratio: 2 / 1.3;
   margin: 10px auto; 
   perspective: 2500px;
-  touch-action: manipulation;
+  touch-action: auto; /* Changed from manipulation to auto to allow native scrolling */
   /* Fix for overlapping on some devices */
   z-index: 1;
 }
@@ -108,6 +108,7 @@ html, body {
   width: 100%; 
   height: 100%; 
   position: relative;
+  touch-action: auto;
 }
 
 .sheet {
@@ -120,6 +121,7 @@ html, body {
   transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
   transform-style: preserve-3d;
   will-change: transform, z-index;
+  touch-action: auto;
 }
 
 .sheet.flipped { 
@@ -152,12 +154,20 @@ html, body {
 
 .page-content { 
   padding: 20px 15px; 
+  flex: 1;
+  min-height: 0;
   height: 100%; 
-  overflow-y: auto; 
+  overflow-y: scroll; /* Force scroll container */
   display: flex; 
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+  position: relative;
+  z-index: 1;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+  transform: translateZ(0); /* Force hardware acceleration for smoother scrolling */
 }
 
 .menu-section { 
@@ -328,7 +338,8 @@ html, body {
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.3);
+    background: rgba(212, 175, 55, 0.6); /* Increased opacity for better visibility */
     border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
   }
 }
