@@ -154,12 +154,37 @@
       },
       { type: 'back', title: 'VOLTE SEMPRE', subtitle: 'Bar AFPESP Peruíbe II' }
     ];
-    let book;
-let container;
-let indicator;
-   let startX = 0;
-let startY = 0;
-let isScrolling = false;
+
+var supportsPassive = false;
+try {
+  window.addEventListener('test', null, Object.defineProperty({}, 'passive', {
+    get: function () { supportsPassive = true; }
+  }));
+} catch (e) {}
+
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function (selector) {
+    var el = this;
+    while (el && el.nodeType === 1) {
+      if (el.matches(selector)) return el;
+      el = el.parentElement || el.parentNode;
+    }
+    return null;
+  };
+}
+
+var passiveOptions = supportsPassive ? { passive: true } : false;
+
+var book;
+var container;
+var indicator;
+var startX = 0;
+var startY = 0;
+var isScrolling = false;
 
 let currentSheet = 0;
 let isAnimating = false;
@@ -302,19 +327,19 @@ indicator = document.getElementById('page-indicator');
 
   container.addEventListener("click", handleBookClick);
 
-  container.addEventListener("touchstart", (e) => {
-    const touch = e.touches[0];
+  container.addEventListener("touchstart", function (e) {
+    var touch = e.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
-  }, { passive: true });
+  }, passiveOptions);
 
-  container.addEventListener("touchmove", (e) => {
+  container.addEventListener("touchmove", function () {
     // Permite scroll nativo - não bloqueia nada
-  }, { passive: true });
+  }, passiveOptions);
 
-  container.addEventListener("touchend", () => {
+  container.addEventListener("touchend", function () {
     // Apenas registra fim do toque
-  }, { passive: true });
+  }, passiveOptions);
 
   initBook();
 });
