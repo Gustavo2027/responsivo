@@ -105,9 +105,7 @@
       position: absolute;
       inset: 0;
       height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+      overflow: hidden;
       touch-action: pan-y;
       scrollbar-width: thin;
       scrollbar-color: var(--gold) rgba(212, 175, 55, 0.05);
@@ -118,6 +116,7 @@
   width: 100%;
   display: flex; 
   flex-direction: column;
+  transition: transform 0.1s ease;
 }
 
 .scroll-wrapper::-webkit-scrollbar {
