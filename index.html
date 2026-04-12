@@ -311,9 +311,14 @@ indicator = document.getElementById('page-indicator');
     const diffY = Math.abs(touch.clientY - startY);
 
     // Se movimento vertical for maior, é scroll - deixa passar
-    if (diffY > diffX) {
+    if (diffY > diffX + 5) {
       isScrolling = true;
       return;
+    }
+    
+    // Se movimento horizontal, pode ser mudança de página
+    if (diffX > diffY + 5) {
+      isScrolling = false;
     }
   }, { passive: true });
 
