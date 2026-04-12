@@ -242,7 +242,13 @@ let isAnimating = false;
 
     // Função para tratar o clique direto no livro
    function handleBookClick(e) {
-  if (isAnimating || isScrolling) return;
+  if (isAnimating) return;
+
+  // Se clicou dentro de um elemento com scroll, ignora mudança de página
+  const pageContent = e.target.closest('.page-content');
+  if (pageContent && pageContent.scrollHeight > pageContent.clientHeight) {
+    return;
+  }
 
   const rect = container.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
@@ -300,30 +306,14 @@ indicator = document.getElementById('page-indicator');
     const touch = e.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
-    isScrolling = false;
   }, { passive: true });
 
   container.addEventListener("touchmove", (e) => {
-    if (isAnimating) return;
-    
-    const touch = e.touches[0];
-    const diffX = Math.abs(touch.clientX - startX);
-    const diffY = Math.abs(touch.clientY - startY);
-
-    // Se movimento vertical for maior, é scroll - deixa passar
-    if (diffY > diffX + 5) {
-      isScrolling = true;
-      return;
-    }
-    
-    // Se movimento horizontal, pode ser mudança de página
-    if (diffX > diffY + 5) {
-      isScrolling = false;
-    }
+    // Permite scroll nativo - não bloqueia nada
   }, { passive: true });
 
   container.addEventListener("touchend", () => {
-    isScrolling = false;
+    // Apenas registra fim do toque
   }, { passive: true });
 
   initBook();
